@@ -1,0 +1,16 @@
+{
+  "sfdxHardisLabel": "Handover Item reference data",
+  "sfdxHardisDescription": "The 10 Handover Item records every org needs...",
+  "objects": [
+    {
+      "query": "SELECT External_Id__c, Label__c, Sequence__c, Is_Template__c, Name  FROM Handover_Item__c",
+      "operation": "Upsert",
+      "externalId": "External_Id__c",
+      "master": true,
+      "deleteOldData": false,
+      "useQueryAll": false,
+      "allOrNone": true,
+      "updateWithMockData": false
+    }
+  ]
+}
