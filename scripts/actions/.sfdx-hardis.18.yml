@@ -1,0 +1,9 @@
+commandsPostDeploy:
+  - id: fa0c92bd-33b7-48de-8d89-e5c57a18c0c2
+    label: Load handover item reference data
+    type: data
+    command: ""
+    parameters:
+      sfdmuProject: HeliosHandOverRefData
+    runOnlyOnceByOrg: true
+    context: process-deployment-only
