@@ -8,7 +8,7 @@
 # App and JWT for preprod and main, and leaves integration and uat on this shortcut,
 # which a real project would not do.
 
-targetUsername: test-15ucr74b0pj1@example.com
+targetUsername: test-kmiwsntcwwds@example.com
 instanceUrl: https://test.salesforce.com
 
 mergeTargets: [uat]
