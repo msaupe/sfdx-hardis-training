@@ -13,7 +13,7 @@ depends_on:
   commands: [hardis:project:deploy:smart, hardis:doc:release-notes, hardis:doc:dora-report]
   flags: []
   config: [mergeTargets, productionBranch]
-  panels: [pipeline]
+  panels: [pipeline, doraMetrics]
   docs: [salesforce-devops-release-home, salesforce-devops-setup-checklist]
 ---
 
@@ -99,8 +99,13 @@ this release is for, and put them in the description of the Pull Request from `p
 
 ### Friday: measure
 
-Set `helios-prod` as your default org in **Orgs Manager**, so the report measures production rather
-than your sandbox, then run the DORA report and compare it with the baseline you took in [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md).
+Open the **DORA metrics** panel from the gear menu of the **DevOps Pipeline**, as in [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md), and
+read **Time to production** in the pipeline flow, the row of `main`, then the one of
+`integration`. Export the report again, **Export** then **Markdown report**, and compare it with the baseline you took in [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md).
+
+The panel compares each number with the previous period by itself, with an arrow. Your pipeline is
+younger than the 90 days of a period, so the period before is empty and no arrow is drawn yet: this
+week, the baseline file is still what you compare with.
 
 Then read back over the week, and answer three questions for yourself, the ones a successor would
 ask:
@@ -181,6 +186,10 @@ A Level 3 claim re-runs the **Level 1 and Level 2 audits first**. That is how th
 enforced, because a Trailmix cannot gate anything. The command runs those same audits on your
 machine before it opens anything, so you find out here rather than on the issue.
 
+Then, as for the two other levels: it asks for your Trailblazer username, the last part of the
+address of your Trailhead profile, and opens the claim form filled in. Pick your level in the
+**Level** dropdown, which a link cannot prefill, then tick the three boxes and submit.
+
 !!! tip "If the course helped you"
     [hardisgroupcom/vscode-sfdx-hardis](https://github.com/hardisgroupcom/vscode-sfdx-hardis) is the
     extension every click of this course went through. A star is how an open source project stays
@@ -216,6 +225,19 @@ week put the pipeline back. On a real project the pressure runs the other way: t
 agreed for a good reason, the second because the first one worked, and after a quarter nobody can
 say what any org contains. If you find yourself assembling one every week, the thing to fix is the
 sign-off, not the tooling.
+
+## When you would rather not do it alone
+
+You now know what a release cycle costs: somebody in the seat, every week. When nobody on your team
+can hold it, [Cloudity](https://sfdx-hardis.cloudity.com/salesforce-devops-home/#get-help-from-cloudity), the company behind sfdx-hardis and this course, sets the
+pipeline up, trains the team, and provides a release manager as a service. Its
+[Managed Services](https://cloudity.com/services/managed-services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3) go further and run the org for you.
+
+The same company delivers Agentforce, Data Cloud, Revenue Cloud and Field Service projects:
+[see everything Cloudity does](https://cloudity.com/services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3).
+
+[![Cloudity, Salesforce consulting: Agentforce, Data Cloud, Revenue Cloud, Field Service, Marketing Cloud, Integration, Managed Services, DevOps](../../_assets/brand/cloudity-services-en.png){ .cloudity-banner .wide-only loading=lazy }](https://cloudity.com/services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3)
+[![Cloudity, Salesforce consulting: Agentforce, Data Cloud, Revenue Cloud, Field Service, Marketing Cloud, Integration, Managed Services, DevOps](../../_assets/brand/cloudity-services-en-narrow.png){ .cloudity-banner .narrow-only loading=lazy }](https://cloudity.com/services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3)
 
 ## Thank you
 

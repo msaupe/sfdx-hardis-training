@@ -21,6 +21,7 @@ screenshots:
   - annotated/vscode/pipeline-config--target-branches
   - annotated/vscode/pipeline-config-user-stories--target-branches
   - annotated/vscode/pipeline-config-danger--promotion-branches
+  - annotated/vscode/pipeline-config-branch-merge-target
   - annotated/vscode/pipeline-cards--save-publish
   - annotated/vscode/work-save-completed
   - annotated/vscode/devops-pipeline-level3--four-stages
@@ -87,7 +88,10 @@ one, and finishing the pipeline waits until the day somebody needs to release pr
       [developer.salesforce.com/signup](https://developer.salesforce.com/signup) exactly like the
       first one, and connected in **Orgs Manager** with the alias `helios-preprod`
 - [ ] Both seeded: Welcome page > **Training: Level 3** > **Set up one of my training orgs**, once
-      for `helios-preprod` and once for `helios-prod`
+      for `helios-preprod` and once for `helios-prod`. It first sets the language of your user to
+      English in that org, if it is not already: every org of a pipeline is worked in one language,
+      because Salesforce names the page layouts it creates in the language of the user at work, and a
+      Profile assigns a page layout by its name
 - [ ] `SFDX_AUTH_URL_INTEGRATION` and `SFDX_AUTH_URL_UAT` still in your fork, as since Level 1: this
       lab leaves them alone
 - [ ] On `integration` in VS Code, with nothing waiting in the **Source Control** panel
@@ -143,6 +147,10 @@ enforces it rather than trusting everybody to remember. Since [Lab 1.2](../level
 work that way: setting up the environment protected them. `preprod` and `main` are yours to
 protect, and a release manager does it the day the branches join the pipeline, not after the first
 bad merge.
+
+Your fork gives you a second reason. It deletes a branch once its Pull Request is merged, and a
+release is a Pull Request whose source is `preprod`. Only a protected branch is kept: without its
+rule, `preprod` would go with your first release.
 
 In your fork (`github.com/my-username/sfdx-hardis-training`), click **Settings** **(1)**, then
 **Branches** **(2)** in the left menu. The two rules **(4)** are the ones setting up your environment
@@ -268,9 +276,10 @@ It asks a dozen questions, in this order:
    variables + encrypted certificate as file (default)**. The other mode puts the certificate itself
    in a third secret and deletes the file
 9. **Please confirm when variables have been set.** This one is a stop, and step 6 is what it is
-   waiting for. Do not click **Validate** yet
-10. Then, after you confirm: the **name** of the External Client App, a **contact email**, and the
-    **profile to pre-authorise**. Take **System Administrator**: it is already selected, so keep it.
+   waiting for. It is a **Yes** or **No** question: do not answer it yet
+10. Three more questions come once you have answered **Yes**, which is the end of step 6 below, so
+    read them now and answer them then: the **name** of the External Client App, a **contact
+    email**, and the **profile to pre-authorise**. Take **System Administrator**: it is already selected, so keep it.
     The list shows the profile names in the language of the org's user, so an org set to French
     lists `Administrateur système` instead
 
@@ -318,7 +327,7 @@ the whole convention, and it is why the names are not arbitrary.
     this lab fills four of them. Open `.github/workflows/process-deploy.yml` and read its `env:`
     block once, because on your own project that block is yours to write.
 
-Now click **Validate** on question 9, answer the last three questions, and let the command create
+Now answer **Yes** to question 9, answer the last three questions, and let the command create
 the app.
 
 What it wrote, and where:
@@ -358,10 +367,26 @@ Same gear, **Add/Configure Org**, once more, for production:
 |--------|---------------|----------------------------------------------------------------------------|--------------|-----------------------------------------------|
 | `main` | `helios-prod` | **☢️ Other: Dev org, Production org or DevHub org (login.salesforce.com)** | tick nothing | `SFDX_CLIENT_ID_MAIN`, `SFDX_CLIENT_KEY_MAIN` |
 
+One answer differs from `preprod`. At **What are the target git branches that main will be able to
+merge in?**, the list offers `integration`, `uat` and `preprod`: **tick none of them** and validate
+the empty answer. `main` is the end of the pipeline, and it merges into nothing.
+
 Check the org twice: pointing production at the wrong org is the single most expensive mistake
 available in this lab. And store both secrets, the ID and the key, as in step 6.
 
 Four secrets, two External Client Apps, two keys. Tedious once, then never again.
+
+**Then tell `uat` where its work goes next.** The command wrote that `preprod` merges into
+`main`. Nothing has said yet that `uat` merges into `preprod`: until now `uat` was the end of the
+pipeline, and its branch file says so. In the **DevOps Pipeline** panel, gear menu, **Pipeline
+Settings**, switch the scope selector at the top right to **Branch: uat** **(1)**, open the
+**Deployment** tab **(2)** and click **Edit**. In **Merge target branches** **(3)**, type
+`preprod`, then **Save** **(4)**, which took the place of **Edit**.
+
+![The Deployment tab of the uat branch settings, unlocked, with preprod as its merge target](../../_assets/annotated/vscode/pipeline-config-branch-merge-target.png)
+
+Without it the diagram draws no arrow from `uat` to `preprod`, and [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md) has no **+ PR**
+chip to click there. Step 11 publishes it with the rest.
 
 ### 9. Let contributors start a hotfix
 
@@ -650,6 +675,11 @@ the new branch starts from where you are, with your commit and any file not comm
 **Save / Publish** again. If instead a configuration file you changed was also changed on GitHub,
 pull in the **Source Control** panel, then publish again.
 
+**GitHub shows a Confirm access page when you click Create, or Add secret.**
+GitHub asks who you are again before a sensitive change, when you have not confirmed it for a few
+hours. Confirm with the method it offers, GitHub Mobile, a passkey or a code by email. Then look at
+the list: if the rule or the secret is not in it, fill the form again.
+
 **The check you want to require is not suggested.**
 GitHub only lists checks that reported on this repository in the last seven days. Open a Pull
 Request into `integration`, let its checks run, and come back to the rule.
@@ -665,6 +695,15 @@ there, then run **Set up my training environment** again. On a scratch org it is
 **Set up one of my training orgs fails on `helios-prod`.**
 The usual cause is an expired connection: reconnect it in **Orgs Manager** under the same alias, and
 run it again.
+
+**Set up one of my training orgs fails on `Profile Helios Crew`, with `no Layout named ...` or
+`no CustomTab named ...`.**
+The Profile you published in [Lab 2.6](../level-2-contributor-advanced/2-6-permission-sets-and-profiles.md)
+names a page layout or a tab your scratch org has and this Developer Edition org does not. It is the
+first time that Profile meets an org of another kind, which is why it shows here and not earlier.
+The **If it goes wrong** section of [Lab 2.6](../level-2-contributor-advanced/2-6-permission-sets-and-profiles.md) walks through finding which of the two orgs is the odd
+one, and what to change. Once the fix is merged into `integration`, switch back to it, **Pull**,
+and run **Set up one of my training orgs** again.
 
 ## Check your work
 

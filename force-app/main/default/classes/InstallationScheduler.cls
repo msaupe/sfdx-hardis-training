@@ -50,6 +50,13 @@ public with sharing class InstallationScheduler {
         ];
     }
 
+    /**
+     * The installations from the list that can be scheduled on the given day.
+     *
+     * @param installationIds the installations to check
+     * @param wanted the day the planner wants
+     * @return the ids that can take a crew that day
+     */
     public static List<Id> schedulableOn(List<Id> installationIds, Date wanted) {
         Map<Id, Date> latestArrival = new Map<Id, Date>();
         for (Panel_Batch__c batch : [

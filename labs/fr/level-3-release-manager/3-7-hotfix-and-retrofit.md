@@ -5,7 +5,7 @@ description: "Livrez un hotfix Salesforce de preprod vers la production quand la
 level: 3
 lab: 7
 lang: fr
-source_rev: "f18e9094e4929b8d29993a35b27473f7652d2caa"
+source_rev: "6728ea0bdbef0642d26d73e6d790d7b664597e03"
 screenshots:
   - annotated/salesforce/validation-rule
   - annotated/vscode/welcome-custom-menu-3
@@ -260,9 +260,10 @@ rapport à `preprod`. La pipeline traite `preprod` comme n'importe quelle autre 
 qui en fait un hotfix est la cible, pas un mode.
 
 Le préfixe de branche mérite une seconde de réflexion, pour une raison qui dépasse le rangement : le
-**rework rate** DORA du [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md) compte les Pull Requests de hotfix, et en reconnaît une à un préfixe
+**Rework** DORA du [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md) compte les Pull Requests de hotfix, et en reconnaît une à un préfixe
 de branche `hotfix/`, `fix/` ou `bugfix/`. Ce projet appelle ses branches de correction `fix/`,
-celle-ci compte donc.
+celle-ci compte donc, sur la branche dans laquelle elle a été mergée : `preprod`. La livraison qui
+l'emmène ensuite vers `main` vient de `preprod`, donc le **Rework** de `main` ne bouge pas.
 
 **Le retrofit** est du Git de bout en bout, et rien n'est récupéré d'aucune org :
 
@@ -296,6 +297,15 @@ Documentation des commandes : [hardis:work:new](https://sfdx-hardis.cloudity.com
 
 ## En cas de problème
 
+**Le panneau DevOps Pipeline ne montre qu'`integration`, et la Pull Request du hotfix pointe vers une boîte `preprod` isolée.**
+Le panneau dessine le pipeline à partir des fichiers de la branche sur laquelle se trouve VS Code,
+et vous êtes sur une branche qui date d'avant le [Lab 3.1](3-1-configure-the-pipeline-up-to-production.md) : elle ne connaît donc qu'une branche majeure.
+Rien n'est perdu : `uat`, `preprod` et `main` sont dans votre fork avec leur configuration. Cliquez
+sur le nom de la branche en bas à gauche de VS Code, choisissez `integration`, puis **Source
+Control** > **...** > **Pull**, et rafraîchissez le panneau. Si la Pull Request du hotfix liste bien
+plus d'un fichier, sa branche a été créée depuis ce même vieux commit : fermez-la, cliquez sur
+**Training: Level 3** > **Update my course**, puis de nouveau sur **Simulate my teammates**.
+
 **La Pull Request du hotfix cible `integration`.**
 La simulation l'ouvre vers `preprod`. Si vous voyez `integration`, vous regardez une autre Pull
 Request : vérifiez que sa branche source est `fix/US-045-installation-date-hotfix`.
@@ -319,7 +329,7 @@ le hotfix lui-même.
 
 ## Vérifiez votre travail
 
-**Training: Level 3** > **Check my work**.
+Welcome page > **Training: Level 3** > **Check my work**, puis choisissez **Lab 3.7**.
 
 Il cherche l'exemption `Cancelled` sur `preprod` et sur `main`, et la même ligne sur `integration` :
 le hotfix est parti, et le retrofit l'a ramené.

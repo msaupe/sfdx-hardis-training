@@ -5,7 +5,7 @@ description: "Votre org de développement est en retard sur integration. Faites-
 level: 2
 lab: 1
 lang: fr
-source_rev: "ad33e36183c04a1d20479fde8a198b7fa036c096"
+source_rev: "b7454067edc4ccbf675224de0d1f09952b6e3b16"
 screenshots:
   - annotated/vscode/sidebar-commands-custom-menu-2--training-menu
   - annotated/web/github-pr-files
@@ -27,7 +27,7 @@ depends_on:
 
 **Niveau** : 2 Contributeur avancé
 
-**Durée** : ~15 min
+**Durée** : ~20 min<!-- observed --> (Labs 2.1 et 2.2 observés ensemble : médiane 57 min, 14 participants, le plus rapide 28 min)<!-- /observed -->
 
 **Vous allez** : rapatrier dans votre propre org de dev la story mergée par un collègue, décider
 quoi garder quand l'outil vous le demande, et apprendre ce qu'un backpromote ne fera jamais pour
@@ -213,6 +213,8 @@ clic sur une autre ligne ne fait rien :
 
 - **chore: the state a level 2 learner starts from** et **Keep my pipeline configuration**, si vous
   avez fait un reset : des commits, pas des Pull Requests
+- **Point the pipeline at my training orgs**, si vous avez fait le Niveau 1 : le commit que **Set up
+  my training environment** a créé dans le [Lab 1.2](../level-1-contributor-basics/1-2-create-your-dev-hub-scratch-orgs-and-pipeline.md)
 - des dizaines de commits du cours lui-même, dont votre `integration` a hérité quand vous avez fait
   votre copie du repository. Certains se terminent par un numéro entre parenthèses, comme
   **(#77)** : c'est une Pull Request du repository du cours, pas de votre fork. Votre org les a déjà
@@ -330,7 +332,8 @@ Documentation de la commande : [hardis:work:backpromote](https://sfdx-hardis.clo
 ## Ce que vous devez voir
 
 Ouvrez `helios-dev` et vérifiez que la story de Romain y est : ouvrez une installation, son champ
-**Signed Off By** est en bas de la colonne des champs, sous **Crew Notes**.
+**Signed Off By** est en bas de la colonne des champs. Le layout le place sous **Crew Notes**, que
+vous ne voyez pas vous-même sur l'enregistrement : le [Lab 1.7](../level-1-contributor-basics/1-7-capstone-deliver-a-user-story-on-your-own.md) n'a accordé ce champ qu'aux équipes.
 
 ## En cas de problème
 

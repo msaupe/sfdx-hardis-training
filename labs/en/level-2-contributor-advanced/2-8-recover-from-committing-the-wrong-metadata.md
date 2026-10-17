@@ -9,7 +9,7 @@ source_rev: ""
 screenshots:
   - annotated/vscode/pipeline-cards--new-user-story
   - annotated/vscode/metadata-retriever-recent-changes--select-all
-  - annotated/vscode/sidebar
+  - annotated/vscode/sidebar-commands-collapsed--reset-selection
   - annotated/vscode/pipeline-cards--save-publish
 depends_on:
   commands: [hardis:mdapi:read, hardis:work:resetselection, hardis:work:save]
@@ -23,7 +23,7 @@ depends_on:
 
 **Level**: 2 Contributor advanced
 
-**Time**: ~20 min
+**Time**: ~25 min<!-- observed --> (observed: median 27 min, 5 learners, fastest 16 min)<!-- /observed -->
 
 **You will**: deliberately over-select at publish time, see what that does to a Pull Request, and
 learn the two recovery paths.
@@ -57,19 +57,22 @@ In `helios-dev`, make one small real change: on the Installation layout, move `C
 `Install Date`.
 
 Now open **Commit changes**, search the recent changes, and this time click the tick box in the
-**table header** **(1)**, which selects every row at once. Retrieve them all, commit them all from
-**Source Control**, publish and push.
+**table header** **(1)**, which selects every row at once.
 
 ![The Metadata Retriever, with every row selected](../../_assets/annotated/vscode/metadata-retriever-recent-changes--select-all.png)
 
-In an org where Agentforce is on, the list can also carry `GenOpAgentConfig` rows, named after
-your flows. The Salesforce CLI does not know that type yet, so the retrieve stops and names it:
-untick those rows and retrieve again.
+Before you retrieve, look for `GenOpAgentConfig` rows, named after your flows: an org where
+Agentforce is on carries them, the Salesforce CLI does not know that type yet, and the retrieve
+would stop on them. Untick those rows first.
+
+Then retrieve them all. It takes longer than the retrieves of the earlier labs, ninety rows and
+every Profile among them comes whole, so let it run. Commit them all from **Source Control**,
+publish, push, and open the Pull Request into `integration`, as for any story. Do not merge it.
 
 ### 2. Look at what you did
 
 Look at the **Git Delta package.xml** report the publish offered: more than the one layout your story
-changed. Open the Pull Request and read the diff.
+changed. On GitHub, open the **Files changed** tab of your Pull Request and read the diff.
 
 At the very least there is **a Profile**, `Admin`, the System Administrator profile. The repository
 carries it short, a few lines, and it came back hundreds of lines longer: the Metadata Retriever
@@ -98,7 +101,7 @@ whether or not a panel exposes it.
 
 Open it, then **CI/CD (simple)** **(1)**, then **Reset selected list of items to merge** **(2)**.
 
-![The SFDX HARDIS command list, with the CI/CD (simple) group open](../../_assets/annotated/vscode/sidebar.png)
+![The SFDX HARDIS command list, with the CI/CD (simple) group open](../../_assets/annotated/vscode/sidebar-commands-collapsed--reset-selection.png)
 
 It does more than its name suggests, and knowing exactly what saves you from undoing it twice. In
 one pass it:
@@ -157,6 +160,9 @@ The **Git Delta package.xml** report now names one component, the layout, and th
 over the old branch without asking: the reset authorised it. The Pull Request now shows one file,
 your layout.
 
+Wait for its check to go green, then merge it with **Squash and merge**, like every story: **Check
+my work** looks for the layout change in `integration`.
+
 ### 6. The habit that prevents this
 
 Three checks, each about ten seconds, before every push:
@@ -200,7 +206,7 @@ Command documentation: [hardis:work:resetselection](https://sfdx-hardis.cloudity
 ## What you should see
 
 - The **Git Delta package.xml** report naming a single `Layout`
-- A Pull Request diff of one file: the layout
+- A Pull Request diff of one file, the layout, then that Pull Request merged
 - Your layout change still present in `helios-dev`
 
 ## If it goes wrong

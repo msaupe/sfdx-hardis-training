@@ -5,7 +5,7 @@ description: "Prenez votre premier ticket du backlog et créez sa branche Git et
 level: 1
 lab: 3
 lang: fr
-source_rev: "b7f5e0686a2d5a83a1ce183f8f4c30a684e0a129"
+source_rev: "b475204ac717ab498480e7240ec1d8e9970ca130"
 screenshots:
   - annotated/vscode/pipeline-cards-level1--new-user-story
   - annotated/vscode/work-new-story-type
@@ -25,7 +25,7 @@ depends_on:
 
 **Niveau** : 1 Contributeur, les bases
 
-**Durée** : ~10 min
+**Durée** : ~10 min<!-- observed --> (observé : médiane 13 min, 11 participants, le plus rapide 6 min)<!-- /observed -->
 
 **Vous allez** : prendre votre premier ticket et atterrir sur une branche propre, pointée vers votre
 org de dev.
@@ -224,9 +224,9 @@ Trois choses, toutes visibles sans quitter VS Code :
 1. **En bas à gauche de la barre d'état** : la branche est maintenant
    `features/US-014-panels-required`
 2. **Le panneau sfdx-hardis, section Status** : *Current Org* nomme la scratch org que vous avez
-   choisie. Il affiche le nom propre de l'org, celui que Salesforce a inventé, et non l'alias
-   `helios-dev` : vérifiez donc le nom d'utilisateur plutôt que de chercher l'alias que vous
-   connaissez
+   choisie. Il affiche l'adresse et le nom d'utilisateur de l'org, ceux que Salesforce a inventés,
+   et jamais l'alias `helios-dev`. Pour être sûr que c'est la bonne org, comparez ce nom
+   d'utilisateur avec celui de la ligne `helios-dev` d'**Orgs Manager**
 3. **Le panneau DevOps Pipeline** : `integration` et `uat`, inchangés. **Votre nouvelle branche
    n'y est pas, et c'est normal.** Le diagramme dessine les branches majeures et les Pull Requests
    ouvertes vers elles, et votre branche n'a encore ni Pull Request ni org à elle. Elle apparaîtra

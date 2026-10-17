@@ -5,7 +5,7 @@ description: "Rapatriez vos modifications d'org dans Git avec le Metadata Retrie
 level: 1
 lab: 5
 lang: fr
-source_rev: "b7f5e0686a2d5a83a1ce183f8f4c30a684e0a129"
+source_rev: "c345892705eac1635f8f23b7deec68fe19d4d4ae"
 screenshots:
   - annotated/vscode/pipeline-cards-level1--commit-changes
   - annotated/vscode/metadata-retriever-recent-changes--find
@@ -29,7 +29,7 @@ depends_on:
 
 **Niveau** : 1 Contributeur, les bases
 
-**Durée** : ~20 min
+**Durée** : ~20 min<!-- observed --> (observé : médiane 24 min, 11 participants, le plus rapide 10 min)<!-- /observed -->
 
 **Vous allez** : rapatrier vos modifications d'org dans le repository, décider lesquelles appartiennent
 à votre story, et pousser une branche prête à être relue.
@@ -322,9 +322,10 @@ qui a effectué, dans cet ordre :
 3. **Retiré des Profiles les permissions utilisateur** listées sous `autoRemoveUserPermissions`, que
    ce projet a décidé de ne jamais laisser voyager d'une org à l'autre par un déploiement. Les
    Profiles uniquement : un Permission Set garde tout ce qu'on lui a donné
-4. **Commité ce qu'il a modifié**, sous `chore(sfdx-hardis): update package content` et
-   `chore(sfdx-hardis): clean sfdx project`. Ces commits sont ceux de l'outil, pas les vôtres : le
-   vôtre est celui que vous avez écrit à l'étape 4
+4. **Commité ce qu'il a modifié**, sous `chore(sfdx-hardis): update package content`, et sous
+   `chore(sfdx-hardis): clean sfdx project` quand le nettoyage a modifié un fichier. Sur cette story
+   il n'a rien modifié, votre branche gagne donc un seul commit. Ces commits sont ceux de l'outil,
+   pas les vôtres : le vôtre est celui que vous avez écrit à l'étape 4
 5. **Poussé** la branche sur votre fork
 
 Chacune de ces étapes est de la configuration, pas de la magie. Tout ce qu'il a fait est dans
