@@ -29,7 +29,7 @@ depends_on:
 
 **Level**: 1 Contributor basics
 
-**Time**: ~20 min
+**Time**: ~20 min<!-- observed --> (observed: median 24 min, 11 learners, fastest 10 min)<!-- /observed -->
 
 **You will**: bring your org changes into the repository, decide which of them belong to your story,
 and push a branch that is ready to be reviewed.
@@ -306,9 +306,10 @@ which performed, in order:
 3. **Removed from Profiles the user permissions** listed under `autoRemoveUserPermissions`, which
    are permissions this project has decided must never travel between orgs through a deployment.
    Profiles only: a Permission Set keeps everything it was given
-4. **Committed what it changed**, as `chore(sfdx-hardis): update package content` and
-   `chore(sfdx-hardis): clean sfdx project`. Those commits are the tool's, not yours: yours is the
-   one you wrote at step 4
+4. **Committed what it changed**, as `chore(sfdx-hardis): update package content`, and as
+   `chore(sfdx-hardis): clean sfdx project` when the cleaning changed a file. On this story it did
+   not, so your branch gains one commit. Those commits are the tool's, not yours: yours is the one
+   you wrote at step 4
 5. **Pushed** the branch to your fork
 
 Every one of those steps is configuration, not magic. Everything it did is in

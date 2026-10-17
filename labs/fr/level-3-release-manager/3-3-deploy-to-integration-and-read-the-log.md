@@ -5,11 +5,12 @@ description: "Lisez un log de déploiement sfdx-hardis, trouvez ce qu'un joker .
 level: 3
 lab: 3
 lang: fr
-source_rev: "9c652820abe61fac27fa86bac9eba269af742274"
+source_rev: "cd91e712529ccef72c755207cb7602b84227c099"
 screenshots:
   - annotated/vscode/pipeline-config-deployment--delta
   - annotated/vscode/orgs-manager
   - annotated/vscode/devops-pipeline--deployment-status
+  - annotated/vscode/pipeline-packages-menu--package-xml
   - annotated/web/github-pr-deployment-actions-failed
   - annotated/vscode/pipeline-branch-modal-actions-failed
   - annotated/vscode/action-run-prompts
@@ -85,10 +86,13 @@ pourquoi il ne lance lui-même aucun test.
 
 Vous avez modifié un composant. Lisez maintenant ce que le job a réellement envoyé.
 
-Ouvrez le package : panneau **DevOps Pipeline**, menu **Deployment packages**, **Package XML**. Il
-liste toute l'application Helios, quelques dizaines de composants, et **c'est cela le package** : sur
-ce projet chaque déploiement vers `integration` envoie le tout, quoi qu'ait dit le diff. Le compteur
-de composants envoyés du log le dira.
+Ouvrez le package : panneau **DevOps Pipeline**, le menu **Deployment packages** **(1)**, l'icône
+d'une boîte avec une flèche dans l'en-tête, puis **Package XML** **(2)**. Il liste toute
+l'application Helios, quelques dizaines de composants, et **c'est cela le package** : sur ce projet
+chaque déploiement vers `integration` envoie le tout, quoi qu'ait dit le diff. Le compteur de
+composants envoyés du log le dira.
+
+![Le menu Deployment packages du panneau DevOps Pipeline, avec Package XML](../../_assets/annotated/vscode/pipeline-packages-menu--package-xml.png)
 
 C'est le comportement par défaut, et il vaut la peine de le ressentir une fois avant d'apprendre ce
 qui le corrige.
@@ -289,7 +293,7 @@ System.QueryException: List has no rows for assignment to SObject
 Mariia a créé le groupe à la main dans sa propre org, dans Setup, comme on en crée un le plus
 souvent : rien dans sa Pull Request ne le crée.
 
-**Le commentaire de déploiement** de sa Pull Request s'ouvre sur **❌ Deployed to `integration`, but
+**Le commentaire de déploiement** de sa Pull Request s'ouvre sur **⚠️ Deployed to `integration`, but
 an action failed after the deployment** : l'org a les nouvelles métadonnées. Sous **❌ Failed
 action**, il montre la fin de la sortie du script, et sous **⏸️ Not run, waiting for the failed
 action** les deux autres.
@@ -301,7 +305,13 @@ tableau **Status by org** **(2)** dit la même chose dans la colonne `integratio
 
 ![Le commentaire Deployment Actions avec une action en échec et deux actions arrêtées](../../_assets/annotated/web/github-pr-deployment-actions-failed.png)
 
-**La DevOps Pipeline** : cliquez sur `integration`, puis sur l'onglet **Deployment Actions**. Les
+**La DevOps Pipeline** vous demande d'abord deux choses. Récupérez `integration` et faites un pull,
+depuis le nom de branche de la barre d'état et le panneau Source Control : le panneau lit les
+actions dans la branche que vous avez récupérée, et le fichier d'actions de Mariia est arrivé sur
+`integration` avec son merge. Cliquez ensuite sur **Refresh** dans la barre du haut du panneau,
+pour qu'il lise le déploiement qui vient d'échouer.
+
+Cliquez maintenant sur `integration`, puis sur l'onglet **Deployment Actions**. Les
 actions sont regroupées par Pull Request, numérotées dans l'ordre où elles tournent. La colonne
 **Status** **(1)** donne l'état de chaque action dans l'org d'`integration`, et celle en échec porte
 les boutons **Retry** et **Mark as done in integration** **(2)**. Le menu au bout de chaque ligne contient le reste,
@@ -328,9 +338,9 @@ La première action est juste : c'est l'org à qui il manque son groupe. Créez-
    la boîte Quick Find, et cliquez sur **New**
 2. **Label** `Crew Leads`, **Group Name** `Helios_Crew_Leads`, puis **Save**
 
-La définition de l'action est lue dans la branche que vous avez récupérée. Récupérez `integration`
-et faites un pull, depuis le nom de branche de la barre d'état et le panneau Source Control, pour
-que le fichier d'actions de Mariia soit là.
+La définition de l'action est lue dans la branche que vous avez récupérée, et c'est pourquoi
+l'étape 10 vous a fait récupérer `integration` et faire un pull. Si vous avez changé de branche
+depuis, revenez-y.
 
 De retour dans l'onglet **Deployment Actions**, cliquez sur **Retry** sur la ligne de **Put the
 delivery managers in the Crew Leads group**. La commande tourne dans VS Code, sur
@@ -427,7 +437,11 @@ faire prend vingt secondes : faites-la à la main, comme un release manager le f
 livraison ne peut pas attendre :
 
 1. Dans `helios-integration`, **Setup** > **Public Groups** > **Crew Leads** > **Edit**
-2. Ajoutez votre utilisateur dans **Selected Members**, puis **Save**
+2. Regardez **Selected Members**. Votre utilisateur y est déjà : la première action, que vous avez
+   relancée à l'étape 11, a mis chaque delivery manager dans le groupe, et vous en êtes un. Il n'y
+   a rien à ajouter, cliquez donc sur **Cancel**. Sur un vrai projet l'utilisateur de déploiement
+   est un utilisateur technique qu'aucune autre action n'ajoute : vous le passeriez ici dans
+   **Selected Members**, puis **Save**
 
 Ensuite, dans l'onglet **Deployment Actions**, ouvrez le menu de **Add the deployment user to the
 Crew Leads group** et cliquez sur **Mark as done in integration**. Rien ne s'ouvre : sfdx-hardis l'enregistre en
