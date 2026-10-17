@@ -5,7 +5,7 @@ description: "Menez une semaine entière de release manager Salesforce sans pas-
 level: 3
 lab: 11
 lang: fr
-source_rev: "cfe1dcea647583a742b1ae3fdbd4c161e30eb765"
+source_rev: "a3e7f46dae36b84b93d2a89670a860effdfd8f38"
 screenshots:
   - annotated/web/github-star-vscode-sfdx-hardis
   - annotated/vscode/welcome-custom-menu-3
@@ -13,7 +13,7 @@ depends_on:
   commands: [hardis:project:deploy:smart, hardis:doc:release-notes, hardis:doc:dora-report]
   flags: []
   config: [mergeTargets, productionBranch]
-  panels: [pipeline]
+  panels: [pipeline, doraMetrics]
   docs: [salesforce-devops-release-home, salesforce-devops-setup-checklist]
 ---
 
@@ -102,9 +102,15 @@ quoi sert cette livraison, et mettez-les dans la description de la Pull Request 
 
 ### Vendredi : mesurer
 
-Mettez `helios-prod` comme org par défaut dans **Orgs Manager**, pour que le rapport mesure la
-production et non votre sandbox, puis lancez le rapport DORA et comparez-le à la ligne de base que
-vous avez prise au [Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md).
+Ouvrez le panneau **DORA metrics** depuis le menu engrenage du **DevOps Pipeline**, comme au
+[Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md), et lisez **Time to production** dans le pipeline flow, la ligne de `main`, puis celle d'`integration`. Exportez de nouveau le rapport,
+**Export** puis **Markdown report**, et comparez-le à la ligne de base que vous avez prise au
+[Lab 3.6](3-6-release-to-production-and-read-dora-metrics.md).
+
+Le panneau compare lui-même chaque nombre avec la période précédente, par une flèche. Votre
+pipeline est plus jeune que les 90 jours d'une période : la période d'avant est donc vide et aucune
+flèche n'est encore dessinée. Cette semaine, le fichier de la ligne de base reste ce avec quoi vous
+comparez.
 
 Relisez ensuite votre semaine, et répondez pour vous-même à trois questions, celles que poserait un
 successeur :
@@ -188,6 +194,11 @@ prérequis est imposé, parce qu'un Trailmix ne peut rien conditionner. La comma
 audits sur votre machine avant d'ouvrir quoi que ce soit : vous l'apprenez donc ici plutôt que sur
 l'issue.
 
+Ensuite, comme pour les deux autres niveaux : elle demande votre nom d'utilisateur Trailblazer, la
+dernière partie de l'adresse de votre profil Trailhead, et ouvre le formulaire de demande déjà
+rempli. Choisissez votre niveau dans la liste **Level**, qu'un lien ne peut pas pré-remplir, puis
+cochez les trois cases et soumettez.
+
 !!! tip "Si ce cours vous a servi"
     [hardisgroupcom/vscode-sfdx-hardis](https://github.com/hardisgroupcom/vscode-sfdx-hardis) est
     l'extension par laquelle est passé chaque clic de ce cours. Une étoile est ce qui permet à un
@@ -228,6 +239,19 @@ l'autre sens : le premier sous-ensemble est accepté pour une bonne raison, le d
 premier a marché, et au bout d'un trimestre plus personne ne sait ce que contient chaque org. Si vous
 vous retrouvez à en assembler une toutes les semaines, ce qu'il faut corriger est la validation, pas
 l'outillage.
+
+## Quand vous préférez ne pas le faire seul
+
+Vous savez maintenant ce que coûte un cycle de release : quelqu'un au poste, chaque semaine. Quand
+personne dans votre équipe ne peut le tenir, [Cloudity](https://sfdx-hardis.cloudity.com/salesforce-devops-home/#get-help-from-cloudity), la société derrière sfdx-hardis
+et ce cours, met la pipeline en place, forme l'équipe, et fournit un release manager en prestation.
+Ses [services managés](https://cloudity.com/fr/services/services-manages/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3) vont plus loin et exploitent l'org pour vous.
+
+La même société mène des projets Agentforce, Data Cloud, Revenue Cloud et Field Service :
+[voir tout ce que fait Cloudity](https://cloudity.com/fr/services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3).
+
+[![Cloudity, conseil Salesforce : Agentforce, Data Cloud, Revenue Cloud, Field Service, Marketing Cloud, intégration, services managés, DevOps](../../_assets/brand/cloudity-services-fr.png){ .cloudity-banner .wide-only loading=lazy }](https://cloudity.com/fr/services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3)
+[![Cloudity, conseil Salesforce : Agentforce, Data Cloud, Revenue Cloud, Field Service, Marketing Cloud, intégration, services managés, DevOps](../../_assets/brand/cloudity-services-fr-narrow.png){ .cloudity-banner .narrow-only loading=lazy }](https://cloudity.com/fr/services/?utm_source=sfdx-hardis-training&utm_medium=referral&utm_campaign=capstone-3)
 
 ## Merci
 

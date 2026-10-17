@@ -5,7 +5,7 @@ description: "Transportez trois User Stories approuvées sur cinq de uat vers pr
 level: 3
 lab: 10
 lang: fr
-source_rev: "2ff0edf311c71f4e0e8a37a0b86a132984b4883e"
+source_rev: "73875a7c2ed4b564cca87b9872d700f4240131c1"
 screenshots:
   - annotated/vscode/welcome-custom-menu-3
   - annotated/vscode/pipeline-config-danger--promotion-branches
@@ -118,7 +118,7 @@ dans une org d'intégration qui est reconstruite depuis la branche de toute faç
 `sf hardis:project:promotion:create` refuse purement et simplement de tourner tant que la liste est
 absente, plutôt que de deviner que chaque branche majeure peut promouvoir vers toutes les autres.
 
-<details markdown="1"><summary>Sous le capot : pourquoi un réglage publié au [Lab 3.1](3-1-configure-the-pipeline-up-to-production.md) compte maintenant</summary>
+<details markdown="1"><summary>Sous le capot : pourquoi un réglage publié au Lab 3.1 compte maintenant</summary>
 
 Les deux réglages sont au niveau projet, dans `config/.sfdx-hardis.yml` :
 
@@ -357,7 +357,7 @@ Tickets: US-057, US-059, US-061
 
 ## Committed with conflict markers
 
-- #63 US-059 Record the supplier of a panel batch
+- US-059 Record the supplier of a panel batch (#63)
   - `force-app/main/default/layouts/Panel_Batch__c-Panel Batch Layout.layout-meta.xml`
   - `force-app/main/default/permissionsets/Helios_Delivery_Manager.permissionset-meta.xml`
 
@@ -399,7 +399,7 @@ métadonnées Salesforce. Le même texte se trouve dans
 `hardis-report/promotion-conflicts-prompt-<date>.md`, le fichier de rapport que le panneau de
 commande vous a proposé. L'étape 6 utilise l'un ou l'autre.
 
-Regardez maintenant les **Checks** de la Pull Request. L'exécution **Check deployment** est rouge,
+Regardez maintenant les **Checks** de la Pull Request. Le check **Simulate Deployment to Major Org** est rouge,
 et le commentaire sfdx-hardis dit pourquoi : son verdict indique **❌ Cannot merge into `preprod`: Git
 conflict markers in the promotion branch**, et un paragraphe en dessous nomme les fichiers :
 
@@ -426,9 +426,10 @@ Pull Request et son contrôle rouge, là où se trouvait la pastille **+ PR** : 
 branche de votre pipeline, c'est quelque chose qui se déplace entre deux d'entre elles, et cela vit
 exactement le temps de sa Pull Request.
 
-Le compteur sur le nœud `uat` **(2)** affiche toujours cinq User Stories en attente, et c'est
-correct : rien n'a encore bougé. Une promotion ouverte est une proposition. Mergez-la, revenez, et
-le compteur affiche deux, parce qu'**une Pull Request n'apparaît qu'à un seul endroit** : à partir
+Le compteur sur le nœud `uat` **(2)** affiche toujours sept, et c'est correct : rien n'a encore
+bougé. Il compte des Pull Requests : les cinq stories, plus le retrofit du [Lab 3.7](3-7-hotfix-and-retrofit.md) et la
+configuration du [Lab 3.8](3-8-monitor-your-production-org.md) qui se trouvent sous elles dans la fenêtre. Une promotion ouverte est une
+proposition. Mergez-la, revenez, et le compteur affiche quatre, parce qu'**une Pull Request n'apparaît qu'à un seul endroit** : à partir
 de là US-057, US-059 et US-061 sont listées dans la fenêtre de `preprod`, la branche qu'elles ont
 atteinte, et plus dans celle de `uat`, la branche qu'elles ont quittée.
 
@@ -535,7 +536,9 @@ sfdx-hardis : sa première ligne est celle d'une promotion ordinaire,
 > declared in its description.
 
 suivie de ce que le job a rassemblé depuis elles. La section repliée **🎫** à côté liste les trois
-Pull Requests, #62, #63 et #65.
+Pull Requests, celles de US-057, US-059 et US-061. Sur le fork du cours ce sont les #62, #63 et
+
+# 65 ; les vôtres portent d'autres numéros
 
 Si cette ligne manque, ou si elle dit qu'aucune des Pull Requests déclarées n'a pu être utilisée,
 **arrêtez-vous et corrigez avant de merger**. Cela veut dire que le job n'a pas lu la déclaration, et
@@ -710,7 +713,8 @@ leurs deployment actions s'exécutent en production aussi.
   **Scaffolding Required** là-bas
 - Aucun `<<<<<<<` restant dans les deux fichiers sur `preprod`
 - Une Pull Request de retrofit mergée dans `integration` sans aucun fichier modifié
-- Le nœud `uat` du diagramme qui compte deux User Stories encore en attente
+- Le nœud `uat` du diagramme qui compte quatre Pull Requests encore en attente : US-058, US-060,
+  le retrofit du [Lab 3.7](3-7-hotfix-and-retrofit.md) et la configuration du [Lab 3.8](3-8-monitor-your-production-org.md)
 
 ## En cas de problème
 
@@ -776,7 +780,7 @@ Le retrofit de l'étape 9 manque, ou il a été mergé en gardant le côté `pre
 
 ## Vérifiez votre travail
 
-Welcome page > **Training: Level 3** > **Check my work**, puis choisissez le Lab 3.10.
+Welcome page > **Training: Level 3** > **Check my work**, puis choisissez **Lab 3.10**.
 
 Il cherche les trois stories promues sur `preprod`, une promotion branch dans son historique, aucun
 marqueur de conflit restant dans ses métadonnées, et une `integration` capable de reprendre

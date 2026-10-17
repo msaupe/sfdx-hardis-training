@@ -20,7 +20,7 @@ are exactly what Level 2 puts you through. Somebody who has never solved a deplo
 judge whether a contributor solved theirs properly, and the reviews they give will be about
 formatting.
 
-If you skipped Level 2, do it. It is four hours and it is the difference between approving Pull
+If you skipped Level 2, do it. It is a few hours and it is the difference between approving Pull
 Requests and understanding them.
 
 ## The story
@@ -94,10 +94,12 @@ Before Lab 3.1, sign up for one more free Developer Edition org at
 [developer.salesforce.com/signup](https://developer.salesforce.com/signup) and connect it in **Orgs
 Manager** with the alias `helios-preprod`. Then seed both Developer Edition orgs with
 **Training: Level 3 > Set up one of my training orgs**: `helios-preprod`, and `helios-prod`, which
-until now only created the others and held nothing.
+until now only created the others and held nothing. If it stops on `Profile Helios Crew`, the
+**If it goes wrong** section of [Lab 3.1](3-1-configure-the-pipeline-up-to-production.md) says why.
 
-`helios-prod` gets the same sources as the other orgs. Nothing seeds a deployment history, so the
-DORA report in Lab 3.6 sees only the seeding and the deployments you make yourself.
+`helios-prod` gets the same sources as the other orgs. Nothing seeds a deployment history, and the
+seeding itself is not a deployment of the pipeline, so the DORA metrics of Lab 3.6 hold only the
+deployment jobs your own merges ran.
 
 If a scratch org expired since Level 2, **Training: Level 3 > Set up my training environment**
 rebuilds it first.

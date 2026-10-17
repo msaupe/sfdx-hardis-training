@@ -5,9 +5,10 @@ description: "Une permission accordée sur un profil s'évapore après un déplo
 level: 2
 lab: 6
 lang: fr
-source_rev: "9c652820abe61fac27fa86bac9eba269af742274"
+source_rev: "fbd807a35b1b968f5a7f2c9a48bdbf154109b86e"
 screenshots:
   - annotated/vscode/pipeline-cards--new-user-story
+  - annotated/vscode/pipeline-packages-menu--package-xml
   - annotated/vscode/pipeline-config
 depends_on:
   commands: [hardis:mdapi:read, hardis:work:save]
@@ -21,7 +22,7 @@ depends_on:
 
 **Niveau** : 2 Contributeur avancé
 
-**Durée** : ~25 min
+**Durée** : ~30 min<!-- observed --> (observé : médiane 34 min, 6 participants, le plus rapide 21 min)<!-- /observed -->
 
 **Vous allez** : courir après une permission qui s'évapore entre un déploiement vert et l'org cible,
 et découvrir qu'elle a été retirée exprès.
@@ -55,8 +56,12 @@ Pipeline. Nom `US-033-batch-cost-visibility`, org `helios-dev`.
 
 Les équipes de pose se connectent avec le profil **Helios Crew**. C'est l'un des deux profils que
 porte ce repository, à côté d'`Admin`, le profil System Administrator : dans le panneau **DevOps
-Pipeline**, ouvrez le menu **Deployment packages**, puis **Package XML**, et la ligne **Profile**
-liste les deux.
+Pipeline**, ouvrez le menu **Deployment packages** **(1)**, l'icône d'une boîte avec une flèche dans
+l'en-tête, qui n'affiche son nom qu'au survol, puis **Package XML** **(2)**, comme au
+[Lab 1.5](../level-1-contributor-basics/1-5-retrieve-commit-and-publish-your-changes.md). La ligne
+**Profile** liste les deux.
+
+![Le menu Deployment packages du panneau DevOps Pipeline, avec Package XML](../../_assets/annotated/vscode/pipeline-packages-menu--package-xml.png)
 
 Dans `helios-dev`, la voie rapide : **Setup > Object Manager > Panel Batch > Fields & Relationships >
 Cost > Set Field-Level Security**, cochez **Visible** pour le profil **Helios Crew**, **Save**.
@@ -137,6 +142,12 @@ transporter finirait par supprimer celui de quelqu'un d'autre.
     profil. Ce qui reste peut quand même être long, car un profil récupéré en entier liste le réglage
     d'onglet et la présentation de page de chaque objet de l'org : c'est exactement ce que seul un
     profil peut porter.
+
+    Ces lignes sont aussi ce qui garde un profil attaché à l'org d'où il vient. Il nomme chaque
+    présentation de page et chaque onglet, objets standard compris, et une org à qui il en manque
+    un refuse le profil entier. Il se déploie partout dans ce cours parce que vos orgs sont
+    construites pour contenir les mêmes objets, sous les mêmes noms. **En cas de problème**, plus
+    bas, montre comment trouver quelle org diffère quand ce n'est pas le cas.
 
 ### 5. Le faire comme le projet l'attend
 
@@ -242,6 +253,42 @@ permissions de champ, d'objet ou de classe, il a été commité après une récu
 jamais passé par le nettoyage. Vérifiez que
 `minimizeProfiles` est toujours listé dans l'onglet **Salesforce Project** de **Pipeline Settings**,
 puis refaites **Save / Publish**. Ne raccourcissez pas le fichier à la main.
+
+**Un déploiement refuse le profil avec `no Layout named ...` ou `no CustomTab named ...`.**
+Cela peut arriver sur cette Pull Request, ou bien plus tard, la première fois que le profil atteint
+une org du Niveau 3. Le profil attribue une présentation de page, ou affiche un onglet, que l'org
+cible n'a pas. Le message la nomme, sous la forme `Objet-Nom de la présentation` : partez de là.
+
+1. **Est-elle à vous ?** Cherchez le nom de la présentation dans le repository (`Ctrl+Shift+F`).
+   Si un fichier la contient, elle manque seulement dans `manifest/package.xml`, et c'est l'erreur
+   du [Lab 2.2](2-2-fix-a-missing-dependency-deployment-error.md). Si aucun fichier ne la contient,
+   Salesforce l'a créée dans l'org d'où le profil a été récupéré, et personne ne l'a décidée
+2. **Pourquoi une org l'a et pas l'autre ?** Ouvrez **Setup > Object Manager** dans les deux orgs,
+   cherchez l'objet, puis ses **Page Layouts**. Il y a trois réponses habituelles :
+
+    | Ce que vous trouvez dans l'org cible                | La cause                                                                                                                                          |
+    |-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+    | L'objet n'y est pas                                 | Une fonctionnalité Salesforce est active dans une org et pas dans l'autre. `ServiceAppointment` et ses voisins viennent avec Field Service        |
+    | L'objet y est, sa présentation porte un nom traduit | La présentation a été créée par un utilisateur travaillant dans une autre langue : `Présentation Crew Capacity` au lieu de `Crew Capacity Layout` |
+    | L'objet y est, sans présentation ou avec une autre  | Les deux orgs n'ont pas été créées au même moment, ou quelqu'un a renommé ou supprimé la présentation à la main                                   |
+
+3. **Corrigez la cause, pas le message.** Une fonctionnalité : mettez les orgs d'accord, en
+   l'activant dans l'org cible avant le déploiement, ce qui est une action manuelle pour le release
+   manager, ou en la désactivant dans l'org où vous construisez, puis récupérez le profil de
+   nouveau. Une langue : passez votre utilisateur en anglais dans l'org cible, **votre photo >
+   Settings > Language & Time Zone**, et renommez-y la présentation. Tout le reste, sur un objet
+   que votre projet n'utilise pas : la ligne n'a rien à faire dans le repository. Dans une User
+   Story **Fix**, ouvrez le fichier du profil, supprimez le bloc `<layoutAssignments>` qui nomme
+   la présentation, ou le bloc `<tabVisibilities>` qui nomme l'onglet, et publiez
+
+Salesforce signale un seul nom manquant par déploiement : un deuxième peut se cacher derrière le
+premier.
+
+Si la liste compte des dizaines de noms, tous des objets standard, vos scratch orgs ont été créées
+avant que ce cours n'y désactive Field Service et les badges Thanks. **Training: Level 2 > Update my
+course**, puis de nouveau **Training: Level 1 > Set up my training environment** : il désactive les
+deux dans les scratch orgs que vous avez, et ne supprime rien. Ensuite une User Story **Fix** depuis
+`helios-dev`, récupérez `Helios Crew` de nouveau comme à l'étape 3, et **Save / Publish**.
 
 ## Vérifiez votre travail
 
